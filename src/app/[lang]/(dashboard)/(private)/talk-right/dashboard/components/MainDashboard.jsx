@@ -73,7 +73,7 @@ const MainDashboard = () => {
   useEffect(() => {
     try {
       const connectWebSocket = () => {
-        const socket = new WebSocket(`ws://${process.env.NEXT_PUBLIC_BACKEND_URL}/connection`);
+        const socket = new WebSocket(`wss://${process.env.NEXT_PUBLIC_BACKEND_URL}/connection`);
 
         socket.onopen = () => {
           console.log('WebSocket connection established');
