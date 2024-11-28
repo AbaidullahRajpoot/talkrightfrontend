@@ -73,7 +73,7 @@ const MainDashboard = () => {
   useEffect(() => {
     try {
       const connectWebSocket = () => {
-        const socket = new WebSocket(`ws://talkrightbackend.vercel.app/connection`);
+        const socket = new WebSocket(`wss://talkrightbackend.vercel.app/connection`);
 
         socket.onopen = () => {
           console.log('WebSocket connection established');
