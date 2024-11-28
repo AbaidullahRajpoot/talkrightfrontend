@@ -73,7 +73,7 @@ const MainDashboard = () => {
   useEffect(() => {
     try {
       const connectWebSocket = () => {
-        const socket = new WebSocket(`wss://${process.env.NEXT_PUBLIC_BACKEND_URL}/connection`);
+        const socket = new WebSocket(`wss://talkrightbackend.vercel.app/connection`);
 
         socket.onopen = () => {
           console.log('WebSocket connection established');
@@ -90,7 +90,7 @@ const MainDashboard = () => {
 
         socket.onclose = (event) => {
           if (event.wasClean) {
-            console.log(`WebSocket closed cleanly, code=${event.code}, reason=${event.reason}`);
+            console.log(`WebSocket closed cleanly, ${event}`);
           } else {
             console.error('WebSocket connection closed unexpectedly');
           }
@@ -113,7 +113,7 @@ const MainDashboard = () => {
 
   const handleCall = async () => {
     try {
-      const response = await fetch('/incoming', { method: 'POST' });
+      const response = await fetch('https://talkrightbackend.vercel.app/incoming', { method: 'POST' });
 
       if (response.ok) {
         console.log('Call initiated', response);
