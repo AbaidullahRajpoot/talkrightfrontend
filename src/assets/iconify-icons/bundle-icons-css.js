@@ -211,13 +211,15 @@
 // }
 
 
-
 import { promises as fs } from 'node:fs'
 import { dirname, join } from 'node:path'
 
 // Installation: npm install --save-dev @iconify/tools @iconify/utils @iconify/json @iconify/iconify
 import { cleanupSVG, importDirectory, isEmptyColor, parseColors, runSVGO } from '@iconify/tools'
 import { getIcons, getIconsCSS, stringToIcon } from '@iconify/utils'
+
+// Workaround for __dirname in ES modules
+const __dirname = dirname(new URL(import.meta.url).pathname);
 
 const sources = {
   json: [
