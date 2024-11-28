@@ -71,40 +71,44 @@ const MainDashboard = () => {
   const [ws, setWs] = useState(null);
 
   useEffect(() => {
-    const connectWebSocket = () => {
-      const socket = new WebSocket(`ws://${process.env.NEXT_PUBLIC_BACKEND_URL}/connection`);
+    try {
+      const connectWebSocket = () => {
+        const socket = new WebSocket(`ws://${process.env.NEXT_PUBLIC_BACKEND_URL}/connection`);
 
-      socket.onopen = () => {
-        console.log('WebSocket connection established');
-        socket.send(JSON.stringify({ event: 'start', start: { streamSid: '123', callSid: 'abc', from: '(254) 218-5857' } }));
+        socket.onopen = () => {
+          console.log('WebSocket connection established');
+          socket.send(JSON.stringify({ event: 'start', start: { streamSid: '123', callSid: 'abc', from: '(254) 218-5857' } }));
+        };
+
+        socket.onmessage = (message) => {
+          console.log('Message from server:', message.data);
+        };
+
+        socket.onerror = (error) => {
+          console.error('WebSocket error observed:', error);
+        };
+
+        socket.onclose = (event) => {
+          if (event.wasClean) {
+            console.log(`WebSocket closed cleanly, code=${event.code}, reason=${event.reason}`);
+          } else {
+            console.error('WebSocket connection closed unexpectedly');
+          }
+        };
+
+        setWs(socket);
       };
 
-      socket.onmessage = (message) => {
-        console.log('Message from server:', message.data);
-      };
+      connectWebSocket();
 
-      socket.onerror = (error) => {
-        console.error('WebSocket error observed:', error);
-      };
-
-      socket.onclose = (event) => {
-        if (event.wasClean) {
-          console.log(`WebSocket closed cleanly, code=${event.code}, reason=${event.reason}`);
-        } else {
-          console.error('WebSocket connection closed unexpectedly');
+      return () => {
+        if (ws) {
+          ws.close();
         }
       };
-
-      setWs(socket);
-    };
-
-    connectWebSocket();
-
-    return () => {
-      if (ws) {
-        ws.close();
-      }
-    };
+    } catch (error) {
+      console.log(error)
+    }
   }, []);
 
   const handleCall = async () => {
