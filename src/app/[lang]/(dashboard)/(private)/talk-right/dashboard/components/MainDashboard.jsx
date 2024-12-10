@@ -73,11 +73,11 @@ const MainDashboard = () => {
   useEffect(() => {
     try {
       const connectWebSocket = () => {
-        const socket = new WebSocket(`wss://talkrightbackend.vercel.app/connection`);
+        const socket = new WebSocket(`ws://localhost:5000/connection`);
 
         socket.onopen = () => {
           console.log('WebSocket connection established');
-          socket.send(JSON.stringify({ event: 'start', start: { streamSid: '123', callSid: 'abc', from: '(254) 218-5857' } }));
+          socket.send(JSON.stringify({ event: 'start', start: { streamSid: '123456789', callSid: 'asdfghjkl', from: '(254) 218-5857' } }));
         };
 
         socket.onmessage = (message) => {
@@ -113,7 +113,7 @@ const MainDashboard = () => {
 
   const handleCall = async () => {
     try {
-      const response = await fetch('https://talkrightbackend.vercel.app/incoming', { method: 'POST' });
+      const response = await fetch('http://localhost:5000/incoming', { method: 'POST' });
 
       if (response.ok) {
         console.log('Call initiated', response);
